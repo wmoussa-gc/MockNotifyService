@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Management API</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="text-center mb-5">
+                    <h1><i class="fas fa-bell me-3"></i>Notification Management API</h1>
+                    <p class="lead">A comprehensive REST API for managing notifications, templates, and delivery tracking</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <!-- API Documentation -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2><i class="fas fa-book me-2"></i>API Documentation</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="accordion" id="apiAccordion">
+                            
+                            <!-- User Sign-up -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#signup">
+                                        <i class="fas fa-user-plus me-2"></i>User Sign-up
+                                    </button>
+                                </h2>
+                                <div id="signup" class="accordion-collapse collapse show" data-bs-parent="#apiAccordion">
+                                    <div class="accordion-body">
+                                        <p><strong>POST</strong> <code>/api/signup</code></p>
+                                        <p>Create a new user account and receive an API key.</p>
+                                        <h6>Request Body:</h6>
+                                        <pre><code>{
+  "email": "user@example.com",
+  "password": "securepassword"
+}</code></pre>
+                                        <h6>Response:</h6>
+                                        <pre><code>{
+  "message": "User created successfully",
+  "email": "user@example.com",
+  "api_key": "uuid-generated-key"
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Services -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#services">
+                                        <i class="fas fa-cogs me-2"></i>Services Management
+                                    </button>
+                                </h2>
+                                <div id="services" class="accordion-collapse collapse" data-bs-parent="#apiAccordion">
+                                    <div class="accordion-body">
+                                        <p><strong>POST</strong> <code>/api/services</code></p>
+                                        <p>Create a new service linked to your API key.</p>
+                                        <h6>Headers:</h6>
+                                        <pre><code>X-API-Key: your-api-key</code></pre>
+                                        <h6>Request Body:</h6>
+                                        <pre><code>{
+  "name": "My Service",
+  "description": "Service description"
+}</code></pre>
+                                        
+                                        <hr>
+                                        
+                                        <p><strong>GET</strong> <code>/api/services</code></p>
+                                        <p>Get all services for the authenticated user.</p>
+                                        <h6>Headers:</h6>
+                                        <pre><code>X-API-Key: your-api-key</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Templates -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#templates">
+                                        <i class="fas fa-file-alt me-2"></i>Templates Management
+                                    </button>
+                                </h2>
+                                <div id="templates" class="accordion-collapse collapse" data-bs-parent="#apiAccordion">
+                                    <div class="accordion-body">
+                                        <p><strong>POST</strong> <code>/api/templates</code></p>
+                                        <p>Create a new message template.</p>
+                                        <h6>Headers:</h6>
+                                        <pre><code>X-API-Key: your-api-key</code></pre>
+                                        <h6>Request Body:</h6>
+                                        <pre><code>{
+  "name": "Welcome Email",
+  "subject": "Welcome to Our Service!",
+  "body": "Hello! Welcome to our amazing service.",
+  "service_id": "service-uuid"
+}</code></pre>
+                                        
+                                        <hr>
+                                        
+                                        <p><strong>GET</strong> <code>/api/templates</code></p>
+                                        <p>Get all templates for the authenticated user.</p>
+                                        <h6>Headers:</h6>
+                                        <pre><code>X-API-Key: your-api-key</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Notifications -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#notifications">
+                                        <i class="fas fa-paper-plane me-2"></i>Send Notifications
+                                    </button>
+                                </h2>
+                                <div id="notifications" class="accordion-collapse collapse" data-bs-parent="#apiAccordion">
+                                    <div class="accordion-body">
+                                        <p><strong>POST</strong> <code>/api/notifications/email</code></p>
+                                        <p>Send an email notification using a template.</p>
+                                        <h6>Headers:</h6>
+                                        <pre><code>X-API-Key: your-api-key</code></pre>
+                                        <h6>Request Body:</h6>
+                                        <pre><code>{
+  "template_id": "template-uuid",
+  "recipient_email": "recipient@example.com"
+}</code></pre>
+                                        
+                                        <hr>
+                                        
+                                        <p><strong>POST</strong> <code>/api/notifications/sms</code></p>
+                                        <p>Send an SMS notification using a template.</p>
+                                        <h6>Headers:</h6>
+                                        <pre><code>X-API-Key: your-api-key</code></pre>
+                                        <h6>Request Body:</h6>
+                                        <pre><code>{
+  "template_id": "template-uuid",
+  "recipient_phone": "+1234567890"
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Message Tracking -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tracking">
+                                        <i class="fas fa-search me-2"></i>Message Tracking
+                                    </button>
+                                </h2>
+                                <div id="tracking" class="accordion-collapse collapse" data-bs-parent="#apiAccordion">
+                                    <div class="accordion-body">
+                                        <p><strong>GET</strong> <code>/api/messages/{message_id}/status</code></p>
+                                        <p>Get the status of a previously sent message.</p>
+                                        <h6>Headers:</h6>
+                                        <pre><code>X-API-Key: your-api-key</code></pre>
+                                        <h6>Response:</h6>
+                                        <pre><code>{
+  "message_id": "message-uuid",
+  "status": "delivered",
+  "type": "email",
+  "recipient": "recipient@example.com",
+  "sent_at": "2023-01-01T00:00:00",
+  "delivered_at": "2023-01-01T00:00:05"
+}</code></pre>
+                                        
+                                        <hr>
+                                        
+                                        <p><strong>GET</strong> <code>/api/messages</code></p>
+                                        <p>Get all messages for the authenticated user.</p>
+                                        <h6>Headers:</h6>
+                                        <pre><code>X-API-Key: your-api-key</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Testing Interface -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-flask me-2"></i>API Testing Interface</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="apiKey" class="form-label">API Key</label>
+                                    <input type="text" class="form-control" id="apiKey" placeholder="Enter your API key (get it from signup)">
+                                    <div class="form-text">You'll receive this after signing up</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Quick Actions</h5>
+                                
+                                <!-- Sign Up -->
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6>1. Sign Up</h6>
+                                        <div class="mb-2">
+                                            <input type="email" class="form-control form-control-sm mb-1" id="signupEmail" placeholder="Email">
+                                            <input type="password" class="form-control form-control-sm mb-2" id="signupPassword" placeholder="Password">
+                                            <button class="btn btn-primary btn-sm" onclick="signup()">Sign Up</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Create Service -->
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6>2. Create Service</h6>
+                                        <div class="mb-2">
+                                            <input type="text" class="form-control form-control-sm mb-1" id="serviceName" placeholder="Service Name">
+                                            <input type="text" class="form-control form-control-sm mb-2" id="serviceDesc" placeholder="Description">
+                                            <button class="btn btn-secondary btn-sm" onclick="createService()">Create Service</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Create Template -->
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6>3. Create Template</h6>
+                                        <div class="mb-2">
+                                            <input type="text" class="form-control form-control-sm mb-1" id="templateName" placeholder="Template Name">
+                                            <input type="text" class="form-control form-control-sm mb-1" id="templateSubject" placeholder="Subject">
+                                            <textarea class="form-control form-control-sm mb-1" id="templateBody" placeholder="Body" rows="2"></textarea>
+                                            <input type="text" class="form-control form-control-sm mb-2" id="templateServiceId" placeholder="Service ID">
+                                            <button class="btn btn-secondary btn-sm" onclick="createTemplate()">Create Template</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <!-- Send Notifications -->
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6>4. Send Email</h6>
+                                        <div class="mb-2">
+                                            <input type="text" class="form-control form-control-sm mb-1" id="emailTemplateId" placeholder="Template ID">
+                                            <input type="email" class="form-control form-control-sm mb-2" id="emailRecipient" placeholder="Recipient Email">
+                                            <button class="btn btn-success btn-sm" onclick="sendEmail()">Send Email</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6>5. Send SMS</h6>
+                                        <div class="mb-2">
+                                            <input type="text" class="form-control form-control-sm mb-1" id="smsTemplateId" placeholder="Template ID">
+                                            <input type="tel" class="form-control form-control-sm mb-2" id="smsRecipient" placeholder="Phone Number">
+                                            <button class="btn btn-success btn-sm" onclick="sendSMS()">Send SMS</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Check Status -->
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6>6. Check Message Status</h6>
+                                        <div class="mb-2">
+                                            <input type="text" class="form-control form-control-sm mb-2" id="messageId" placeholder="Message ID">
+                                            <button class="btn btn-info btn-sm" onclick="checkStatus()">Check Status</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h5>Response</h5>
+                            <pre id="response" class="bg-dark text-light p-3 rounded">Response will appear here...</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function displayResponse(data) {
+            document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+        }
+
+        function getApiKey() {
+            return document.getElementById('apiKey').value;
+        }
+
+        async function signup() {
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            try {
+                const response = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                displayResponse(data);
+                
+                if (response.ok && data.api_key) {
+                    document.getElementById('apiKey').value = data.api_key;
+                }
+            } catch (error) {
+                displayResponse({ error: error.message });
+            }
+        }
+
+        async function createService() {
+            const name = document.getElementById('serviceName').value;
+            const description = document.getElementById('serviceDesc').value;
+            
+            try {
+                const response = await fetch('/api/services', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': getApiKey()
+                    },
+                    body: JSON.stringify({ name, description })
+                });
+                
+                const data = await response.json();
+                displayResponse(data);
+            } catch (error) {
+                displayResponse({ error: error.message });
+            }
+        }
+
+        async function createTemplate() {
+            const name = document.getElementById('templateName').value;
+            const subject = document.getElementById('templateSubject').value;
+            const body = document.getElementById('templateBody').value;
+            const service_id = document.getElementById('templateServiceId').value;
+            
+            try {
+                const response = await fetch('/api/templates', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': getApiKey()
+                    },
+                    body: JSON.stringify({ name, subject, body, service_id })
+                });
+                
+                const data = await response.json();
+                displayResponse(data);
+            } catch (error) {
+                displayResponse({ error: error.message });
+            }
+        }
+
+        async function sendEmail() {
+            const template_id = document.getElementById('emailTemplateId').value;
+            const recipient_email = document.getElementById('emailRecipient').value;
+            
+            try {
+                const response = await fetch('/api/notifications/email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': getApiKey()
+                    },
+                    body: JSON.stringify({ template_id, recipient_email })
+                });
+                
+                const data = await response.json();
+                displayResponse(data);
+                
+                if (response.ok && data.message_id) {
+                    document.getElementById('messageId').value = data.message_id;
+                }
+            } catch (error) {
+                displayResponse({ error: error.message });
+            }
+        }
+
+        async function sendSMS() {
+            const template_id = document.getElementById('smsTemplateId').value;
+            const recipient_phone = document.getElementById('smsRecipient').value;
+            
+            try {
+                const response = await fetch('/api/notifications/sms', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': getApiKey()
+                    },
+                    body: JSON.stringify({ template_id, recipient_phone })
+                });
+                
+                const data = await response.json();
+                displayResponse(data);
+                
+                if (response.ok && data.message_id) {
+                    document.getElementById('messageId').value = data.message_id;
+                }
+            } catch (error) {
+                displayResponse({ error: error.message });
+            }
+        }
+
+        async function checkStatus() {
+            const messageId = document.getElementById('messageId').value;
+            
+            try {
+                const response = await fetch(`/api/messages/${messageId}/status`, {
+                    headers: {
+                        'X-API-Key': getApiKey()
+                    }
+                });
+                
+                const data = await response.json();
+                displayResponse(data);
+            } catch (error) {
+                displayResponse({ error: error.message });
+            }
+        }
+    </script>
+</body>
+</html>
