@@ -1,5 +1,6 @@
 # Use official Python image
 FROM python:3.11-slim
+COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.9.1@sha256:46d6625e68cbbdd2efab4a20245977664513f13ffef47915b000d431adcea0b4 /lambda-adapter /opt/extensions/lambda-adapter
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
