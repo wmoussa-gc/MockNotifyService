@@ -20,10 +20,10 @@ RUN pip install --upgrade pip
 RUN pip install --no-cache-dir flask gunicorn werkzeug flask-sqlalchemy psycopg2-binary email-validator
 
 # Expose port
-EXPOSE 5000
+EXPOSE 8080
 
 # Set environment variable for Flask
 ENV SESSION_SECRET=change-this-secret
 
 # Start the app with Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "main:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "main:app"]
