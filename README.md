@@ -171,6 +171,20 @@ The application runs on `http://0.0.0.0:5000` with debug mode enabled.
 gunicorn --bind 0.0.0.0:5000 --workers 4 main:app
 ```
 
+## Running with Docker
+
+1. **Build the Docker image**
+   ```bash
+   docker build -t notification-api .
+   ```
+
+2. **Run the Docker container**
+   ```bash
+   docker run -d -p 8080:8080 -e SESSION_SECRET=your-secret notification-api
+   ```
+
+   The API will be available at [http://localhost:8080](http://localhost:8080).
+
 ## Message Status Simulation
 
 The API simulates message delivery with these statuses:
